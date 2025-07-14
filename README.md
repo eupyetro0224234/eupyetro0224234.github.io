@@ -1,1 +1,7 @@
-# Just-Another-Generic-Clicker-Game-But-With-References---Wiki
+Lista de mods:
+
+Background
+Botão
+Console
+Conquistas
+Upgrades
