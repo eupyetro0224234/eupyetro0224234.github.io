@@ -38,5 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   toggleBtn.addEventListener("click", () => {
     sidebar.classList.toggle("hidden");
+    toggleBtn.textContent = sidebar.classList.contains("hidden") ? "⮞" : "⮜";
   });
 });
