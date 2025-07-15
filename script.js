@@ -1,52 +1,53 @@
 const paginas = {
   inicio: `
     <h2>Bem-vindo à Minha Wiki</h2>
-    <p>Este é um exemplo de uma wiki simples feita com HTML, CSS e JavaScript.</p>
-    <p>Use o menu à esquerda para navegar entre os artigos.</p>
+    <p>Esta é uma wiki feita com HTML, CSS e JS, funcionando no GitHub Pages.</p>
+    <p>Use o menu à esquerda para navegar pelos tópicos.</p>
   `,
   historia: `
     <h2>História</h2>
-    <p>A história da nossa wiki começa com uma ideia: documentar tudo de forma simples e acessível.</p>
+    <p>Começamos com uma simples ideia de compartilhar conhecimento.</p>
   `,
   personagens: `
     <h2>Personagens</h2>
     <ul>
-      <li><strong>Ana:</strong> A protagonista determinada.</li>
-      <li><strong>João:</strong> O sábio conselheiro.</li>
-      <li><strong>Luna:</strong> A aliada misteriosa.</li>
+      <li><strong>Ana</strong> – Protagonista</li>
+      <li><strong>João</strong> – Mentor</li>
+      <li><strong>Luna</strong> – Aliada misteriosa</li>
     </ul>
   `,
   curiosidades: `
     <h2>Curiosidades</h2>
     <ul>
-      <li>Wiki feita com HTML/CSS/JS puro.</li>
-      <li>Funciona como uma SPA simples no GitHub Pages.</li>
+      <li>Wiki 100% frontend.</li>
+      <li>Compatível com GitHub Pages.</li>
     </ul>
   `
 };
 
 function mostrarPagina(nome) {
   const conteudo = document.getElementById('conteudo');
-  conteudo.innerHTML = paginas[nome] || "<h2>Página não encontrada</h2>";
+  conteudo.innerHTML = paginas[nome] || '<h2>Página não encontrada</h2>';
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   mostrarPagina('inicio');
 
   document.querySelectorAll('a[data-pagina]').forEach(link => {
-    link.addEventListener('click', e => {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
       const pagina = e.target.getAttribute('data-pagina');
       mostrarPagina(pagina);
     });
   });
 
-  const toggleBtn = document.getElementById("toggle-btn");
-  const sidebar = document.getElementById("sidebar");
+  const toggleBtn = document.getElementById('toggle-btn');
+  const sidebar = document.getElementById('sidebar');
 
-  toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("hidden");
-    toggleBtn.textContent = sidebar.classList.contains("hidden") ? "⮞" : "⮜";
-    toggleBtn.title = sidebar.classList.contains("hidden") ? "Mostrar menu" : "Ocultar menu";
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+    const escondida = sidebar.classList.contains('hidden');
+    toggleBtn.textContent = escondida ? '⮞' : '⮜';
+    toggleBtn.title = escondida ? 'Mostrar menu' : 'Ocultar menu';
   });
 });
