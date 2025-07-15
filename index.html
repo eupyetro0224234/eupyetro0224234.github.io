@@ -2,27 +2,27 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minha Wiki</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <aside id="sidebar" class="sidebar">
-      <button id="toggle-btn">⮜</button>
+      <button id="toggle-btn" title="Ocultar menu">⮜</button>
       <h1>📚 Minha Wiki</h1>
       <nav>
         <ul>
-          <li><a href="#" onclick="mostrarPagina('inicio')">Início</a></li>
-          <li><a href="#" onclick="mostrarPagina('historia')">História</a></li>
-          <li><a href="#" onclick="mostrarPagina('personagens')">Personagens</a></li>
-          <li><a href="#" onclick="mostrarPagina('curiosidades')">Curiosidades</a></li>
+          <li><a href="#" data-pagina="inicio">Início</a></li>
+          <li><a href="#" data-pagina="historia">História</a></li>
+          <li><a href="#" data-pagina="personagens">Personagens</a></li>
+          <li><a href="#" data-pagina="curiosidades">Curiosidades</a></li>
         </ul>
       </nav>
     </aside>
 
     <main id="conteudo" class="conteudo">
-      <!-- Conteúdo dinâmico -->
+      <!-- Conteúdo carregado via JS -->
     </main>
   </div>
 

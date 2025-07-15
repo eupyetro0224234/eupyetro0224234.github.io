@@ -1,7 +1,7 @@
 const paginas = {
   inicio: `
     <h2>Bem-vindo à Minha Wiki</h2>
-    <p>Este é um exemplo de uma wiki simples feita com HTML, CSS e JavaScript.</p>
+    <p>Esta é uma wiki simples feita com HTML, CSS e JavaScript.</p>
     <p>Use o menu à esquerda para navegar entre os artigos.</p>
   `,
   historia: `
@@ -19,8 +19,8 @@ const paginas = {
   curiosidades: `
     <h2>Curiosidades</h2>
     <ul>
-      <li>A wiki é totalmente feita com HTML/CSS/JS puro.</li>
-      <li>Você pode expandir facilmente com novos tópicos.</li>
+      <li>Wiki feita com HTML/CSS/JS puro.</li>
+      <li>Funciona como uma SPA simples para GitHub Pages.</li>
     </ul>
   `
 };
@@ -33,11 +33,22 @@ function mostrarPagina(nome) {
 document.addEventListener("DOMContentLoaded", () => {
   mostrarPagina('inicio');
 
+  // Links do menu
+  document.querySelectorAll('a[data-pagina]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const pagina = e.target.getAttribute('data-pagina');
+      mostrarPagina(pagina);
+    });
+  });
+
+  // Botão de esconder/mostrar sidebar
   const toggleBtn = document.getElementById("toggle-btn");
   const sidebar = document.getElementById("sidebar");
 
   toggleBtn.addEventListener("click", () => {
     sidebar.classList.toggle("hidden");
     toggleBtn.textContent = sidebar.classList.contains("hidden") ? "⮞" : "⮜";
+    toggleBtn.title = sidebar.classList.contains("hidden") ? "Mostrar menu" : "Ocultar menu";
   });
 });
