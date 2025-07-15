@@ -7,21 +7,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>📚 Minha Wiki</h1>
-    <nav>
-      <ul>
-        <li><a href="#" onclick="mostrarPagina('inicio')">Início</a></li>
-        <li><a href="#" onclick="mostrarPagina('historia')">História</a></li>
-        <li><a href="#" onclick="mostrarPagina('personagens')">Personagens</a></li>
-        <li><a href="#" onclick="mostrarPagina('curiosidades')">Curiosidades</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="container">
+    <aside id="sidebar" class="sidebar">
+      <button id="toggle-btn">☰</button>
+      <h2>📘 Tópicos</h2>
+      <nav>
+        <ul>
+          <li><a href="#" onclick="mostrarPagina('inicio')">Início</a></li>
+          <li><a href="#" onclick="mostrarPagina('historia')">História</a></li>
+          <li><a href="#" onclick="mostrarPagina('personagens')">Personagens</a></li>
+          <li><a href="#" onclick="mostrarPagina('curiosidades')">Curiosidades</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-  <main id="conteudo">
-    <!-- Conteúdo inicial carregado pelo JS -->
-  </main>
+    <main id="conteudo" class="conteudo">
+      <!-- Conteúdo carregado dinamicamente -->
+    </main>
+  </div>
 
   <footer>
     <p>&copy; 2025 Minha Wiki. Todos os direitos reservados.</p>
