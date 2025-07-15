@@ -1,3 +1,8 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -12,21 +17,28 @@ body {
   position: fixed;
   top: 10px;
   left: 10px;
-  z-index: 1000;
+  z-index: 1001;
   background-color: #005f73;
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 20px;
-  padding: 5px 10px;
+  font-size: 22px;
+  padding: 6px 12px;
   cursor: pointer;
   user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+#toggle-btn:hover {
+  background-color: #0a9396;
 }
 
 .container {
   display: flex;
   flex: 1;
-  margin-top: 40px;
+  margin-top: 50px; /* Espaço para o botão fixo */
+  min-height: 0;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -34,10 +46,11 @@ body {
   background-color: #005f73;
   color: white;
   padding: 1rem;
-  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 40px);
+  transition: transform 0.3s ease;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
 }
 
 .sidebar h1 {
@@ -60,8 +73,9 @@ body {
   text-decoration: none;
   font-weight: bold;
   display: block;
-  padding: 5px;
-  border-radius: 4px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
 }
 
 .sidebar nav a:hover {
