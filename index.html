@@ -5,87 +5,129 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clicker Game</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #121212;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-    }
-    #score {
-        font-size: 3em;
-        margin-bottom: 30px;
-    }
-    #clicker-button {
-        width: 150px;
-        height: 150px;
-        cursor: pointer;
-        image-rendering: pixelated;
-    }
-    #user-display {
-        margin-bottom: 20px;
-        font-size: 1.2em;
-    }
-    #logout {
-        margin-top: 20px;
-        padding: 10px 20px;
-        font-size: 1em;
-        cursor: pointer;
-        background-color: #ff4c4c;
-        border: none;
-        border-radius: 5px;
-        color: #fff;
-    }
+body {
+    font-family: Arial, sans-serif;
+    background: #121212;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 { margin-bottom: 20px; }
+#score { font-size: 3em; margin: 20px 0; }
+
+input, button {
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+    background: #1f1f1f;
+    color: #fff;
+}
+
+#clicker-button {
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    image-rendering: pixelated;
+    margin-top: 20px;
+}
+
+#login-register {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin-bottom: 30px;
+}
 </style>
 </head>
 <body>
+<h1>Clicker Game</h1>
 
-<div id="user-display"></div>
+<div id="login-register">
+    <h2>Cadastro</h2>
+    <input type="text" id="reg-username" placeholder="Nome de usuário">
+    <input type="email" id="reg-email" placeholder="Email">
+    <input type="password" id="reg-password" placeholder="Senha">
+    <button onclick="register()">Cadastrar</button>
+
+    <h2>Login</h2>
+    <input type="text" id="login-username" placeholder="Nome de usuário">
+    <input type="password" id="login-password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+</div>
+
 <div id="score">0</div>
 <img id="clicker-button" src="assets/button.gif" alt="Botão de Clique">
-<button id="logout">Sair</button>
 
 <script>
-    // Verifica se há usuário logado
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
-        window.location.href = "login.html"; // redireciona para login se não houver usuário
-    } else {
-        document.getElementById('user-display').textContent = `Olá, ${user.username}!`;
-    }
+// Inicializa score
+let score = parseInt(localStorage.getItem('clickerScore')) || 0;
+const scoreDisplay = document.getElementById('score');
+scoreDisplay.textContent = score;
 
-    const button = document.getElementById('clicker-button');
-    const scoreDisplay = document.getElementById('score');
-
-    // Carrega score do localStorage ou inicia em 0
-    let score = parseInt(localStorage.getItem('clickerScore')) || 0;
+// Clique no botão
+const button = document.getElementById('clicker-button');
+button.addEventListener('click', () => {
+    score += 1;
     scoreDisplay.textContent = score;
+    localStorage.setItem('clickerScore', score);
+});
 
-    // Função de clique
-    button.addEventListener('click', () => {
-        score += 1;
+// Registro
+async function register() {
+    const username = document.getElementById("reg-username").value;
+    const email = document.getElementById("reg-email").value;
+    const password = document.getElementById("reg-password").value;
+
+    const res = await fetch("/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, email, password})
+    });
+
+    const data = await res.json();
+    alert(data.msg);
+}
+
+// Login
+async function login() {
+    const username = document.getElementById("login-username").value;
+    const password = document.getElementById("login-password").value;
+
+    const res = await fetch("/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, password})
+    });
+
+    const data = await res.json();
+    alert(data.msg);
+
+    if(data.success) {
+        localStorage.setItem("loggedUser", username);
+        document.getElementById("login-register").style.display = "none";
+    }
+}
+
+// Mantém o score atualizado em múltiplas abas
+window.addEventListener('storage', (e) => {
+    if (e.key === 'clickerScore') {
+        score = parseInt(e.newValue);
         scoreDisplay.textContent = score;
-        localStorage.setItem('clickerScore', score);
-    });
-
-    // Atualiza o score automaticamente caso tenha alteração em outra aba
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'clickerScore') {
-            score = parseInt(e.newValue);
-            scoreDisplay.textContent = score;
-        }
-    });
-
-    // Logout
-    document.getElementById('logout').addEventListener('click', () => {
-        localStorage.removeItem('user');
-        window.location.href = "login.html";
-    });
+    }
+});
 </script>
-
 </body>
 </html>
