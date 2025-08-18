@@ -53,11 +53,17 @@
             border-bottom: 1px solid #444;
             padding-bottom: 5px;
         }
-        .post {
+        .post-link {
             background-color: #1f1f1f;
-            padding: 15px;
+            padding: 10px;
             border-radius: 5px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            color: #fff;
+        }
+        .post-link:hover {
+            background-color: #333;
         }
     </style>
 </head>
@@ -152,7 +158,7 @@ async function carregarPosts() {
         const res = await fetch(backendPosts);
         const posts = await res.json();
         container.innerHTML = posts.map(p => 
-            `<div class="post"><h3>${p.titulo}</h3><p>${p.conteudo}</p></div>`
+            `<a class="post-link" href="https://eupyetro0224234.github.io/posts/${p.url}" target="_blank">${p.titulo}</a>`
         ).join('');
     } catch {
         container.innerHTML = "<p>Erro ao carregar posts.</p>";
