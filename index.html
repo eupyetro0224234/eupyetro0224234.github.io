@@ -3,53 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Site com Flask Backend</title>
+    <title>Meu Site com Posts</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
-        form { display: flex; flex-direction: column; gap: 10px; width: 300px; }
-        input, textarea { padding: 8px; border-radius: 5px; border: none; }
-        button { padding: 10px; border: none; border-radius: 5px; background-color: #4caf50; color: #fff; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-        #resposta { margin-top: 20px; font-weight: bold; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        input, textarea, button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        input, textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #resposta, #postResposta {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        h2 {
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+        .post {
+            background-color: #1f1f1f;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
-    <h1>Formulário de Contato</h1>
-    <form id="contatoForm">
-        <input type="text" name="nome" placeholder="Seu nome" required>
-        <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
-        <button type="submit">Enviar</button>
-    </form>
-    <div id="resposta"></div>
 
-    <script>
-        const form = document.getElementById('contatoForm');
-        const resposta = document.getElementById('resposta');
-        const backendURL = 'https://eupyetro022.pythonanywhere.com/contato';
+<header>
+    <h1>Meu Site com Posts</h1>
+</header>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+<main>
+    <section>
+        <h2>Formulário de Contato</h2>
+        <form id="contatoForm">
+            <input type="text" name="nome" placeholder="Seu nome" required>
+            <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+        <div id="resposta"></div>
+    </section>
 
-            const formData = {
-                nome: form.nome.value,
-                mensagem: form.mensagem.value
-            };
+    <section>
+        <h2>Criar Post</h2>
+        <form id="postForm">
+            <input type="text" name="titulo" placeholder="Título do post" required>
+            <textarea name="conteudo" placeholder="Conteúdo do post" required></textarea>
+            <button type="submit">Criar Post</button>
+        </form>
+        <div id="postResposta"></div>
+    </section>
 
-            try {
-                const res = await fetch(backendURL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+    <section>
+        <h2>Posts Recentes</h2>
+        <div id="postsContainer"></div>
+    </section>
+</main>
 
-                const data = await res.json();
-                resposta.textContent = `Mensagem enviada com sucesso!`;
-                form.reset();
-            } catch (err) {
-                resposta.textContent = `Erro ao enviar mensagem. Tente novamente.`;
-                console.error(err);
-            }
+<script>
+const backendContato = 'https://eupyetro022.pythonanywhere.com/contato';
+const backendPosts = 'https://eupyetro022.pythonanywhere.com/posts';
+
+// Formulário de contato
+const contatoForm = document.getElementById('contatoForm');
+const resposta = document.getElementById('resposta');
+
+contatoForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const data = {
+        nome: contatoForm.nome.value,
+        mensagem: contatoForm.mensagem.value
+    };
+    try {
+        await fetch(backendContato, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
         });
-    </script>
+        resposta.textContent = "Mensagem enviada com sucesso!";
+        contatoForm.reset();
+    } catch {
+        resposta.textContent = "Erro ao enviar mensagem. Tente novamente.";
+    }
+});
+
+// Formulário de posts
+const postForm = document.getElementById('postForm');
+const postResposta = document.getElementById('postResposta');
+
+postForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const data = {
+        titulo: postForm.titulo.value,
+        conteudo: postForm.conteudo.value
+    };
+    try {
+        await fetch(backendPosts, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        postResposta.textContent = "Post criado com sucesso!";
+        postForm.reset();
+        carregarPosts();
+    } catch {
+        postResposta.textContent = "Erro ao criar post. Tente novamente.";
+    }
+});
+
+// Carregar posts
+const container = document.getElementById('postsContainer');
+async function carregarPosts() {
+    try {
+        const res = await fetch(backendPosts);
+        const posts = await res.json();
+        container.innerHTML = posts.map(p => 
+            `<div class="post"><h3>${p.titulo}</h3><p>${p.conteudo}</p></div>`
+        ).join('');
+    } catch {
+        container.innerHTML = "<p>Erro ao carregar posts.</p>";
+    }
+}
+
+carregarPosts();
+</script>
+
 </body>
 </html>
