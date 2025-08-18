@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Cadastro</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #1a1a1a;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: #222;
+        padding: 30px;
+        border-radius: 10px;
+        width: 300px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        text-align: center;
+    }
+
+    h2 { margin-bottom: 20px; }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+    }
+
+    button {
+        width: 95%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #4caf50;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1em;
+    }
+
+    button:hover {
+        background: #45a049;
+    }
+
+    .switch {
+        margin-top: 15px;
+        cursor: pointer;
+        color: #ccc;
+    }
+
+    .switch:hover {
+        color: #fff;
+    }
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <h2 id="title">Cadastro</h2>
+    <input type="text" id="username" placeholder="Nome de usuário">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Senha">
+    <button id="action-btn">Cadastrar</button>
+    <div class="switch" id="toggle">Já tem conta? Faça login</div>
+</div>
+
+<script>
+const container = document.getElementById("container");
+const title = document.getElementById("title");
+const actionBtn = document.getElementById("action-btn");
+const toggle = document.getElementById("toggle");
+
+let mode = "register"; // ou "login"
+
+// Redireciona se já estiver logado
+if(localStorage.getItem("user")){
+    window.location.href = "index.html";
+}
+
+// Alterna entre cadastro e login
+toggle.addEventListener("click", () => {
+    if(mode === "register"){
+        mode = "login";
+        title.textContent = "Login";
+        actionBtn.textContent = "Entrar";
+        document.getElementById("email").style.display = "none";
+        toggle.textContent = "Ainda não tem conta? Cadastre-se";
+    } else {
+        mode = "register";
+        title.textContent = "Cadastro";
+        actionBtn.textContent = "Cadastrar";
+        document.getElementById("email").style.display = "block";
+        toggle.textContent = "Já tem conta? Faça login";
+    }
+});
+
+// Função de registro
+async function registerUser() {
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if(!username || !email || !password){
+        alert("Todos os campos são obrigatórios!");
+        return;
+    }
+
+    const res = await fetch("/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, email, password})
+    });
+
+    const data = await res.json();
+    alert(data.msg);
+    if(data.success){
+        localStorage.setItem("user", username);
+        window.location.href = "index.html";
+    }
+}
+
+// Função de login
+async function loginUser() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if(!username || !password){
+        alert("Todos os campos são obrigatórios!");
+        return;
+    }
+
+    const res = await fetch("/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, password})
+    });
+
+    const data = await res.json();
+    alert(data.msg);
+    if(data.success){
+        localStorage.setItem("user", username);
+        window.location.href = "index.html";
+    }
+}
+
+// Botão principal
+actionBtn.addEventListener("click", () => {
+    if(mode === "register"){
+        registerUser();
+    } else {
+        loginUser();
+    }
+});
+</script>
+</body>
+</html>
