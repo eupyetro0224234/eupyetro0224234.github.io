@@ -1,37 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Minha Wiki</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Site com Flask Backend</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+        form { display: flex; flex-direction: column; gap: 10px; width: 300px; }
+        input, textarea { padding: 8px; border-radius: 5px; border: none; }
+        button { padding: 10px; border: none; border-radius: 5px; background-color: #4caf50; color: #fff; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        #resposta { margin-top: 20px; font-weight: bold; }
+    </style>
 </head>
 <body>
-  <!-- Botão fixo para abrir/fechar a sidebar -->
-  <button id="toggle-btn" title="Ocultar menu">⮜</button>
+    <h1>Formulário de Contato</h1>
+    <form id="contatoForm">
+        <input type="text" name="nome" placeholder="Seu nome" required>
+        <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="resposta"></div>
 
-  <div class="container">
-    <aside id="sidebar" class="sidebar">
-      <h1>📚 Minha Wiki</h1>
-      <nav>
-        <ul>
-          <li><a href="#" data-pagina="inicio">Início</a></li>
-          <li><a href="#" data-pagina="historia">História</a></li>
-          <li><a href="#" data-pagina="personagens">Personagens</a></li>
-          <li><a href="#" data-pagina="curiosidades">Curiosidades</a></li>
-        </ul>
-      </nav>
-    </aside>
+    <script>
+        const form = document.getElementById('contatoForm');
+        const resposta = document.getElementById('resposta');
+        const backendURL = 'https://eupyetro022.pythonanywhere.com/contato';
 
-    <main id="conteudo" class="conteudo">
-      <!-- Conteúdo será carregado aqui -->
-    </main>
-  </div>
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-  <footer>
-    <p>&copy; 2025 Minha Wiki. Todos os direitos reservados.</p>
-  </footer>
+            const formData = {
+                nome: form.nome.value,
+                mensagem: form.mensagem.value
+            };
 
-  <script src="script.js"></script>
+            try {
+                const res = await fetch(backendURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await res.json();
+                resposta.textContent = `Mensagem enviada com sucesso!`;
+                form.reset();
+            } catch (err) {
+                resposta.textContent = `Erro ao enviar mensagem. Tente novamente.`;
+                console.error(err);
+            }
+        });
+    </script>
 </body>
 </html>
