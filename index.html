@@ -1,62 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #121212;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        #score {
-            font-size: 3em;
-            margin-bottom: 30px;
-        }
-
-        #clicker-button {
-            width: 150px;
-            height: 150px;
-            cursor: pointer;
-            image-rendering: pixelated; /* Para GIFs pixelados */
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Clicker Game</title>
+<style>
+body { font-family: Arial; background:#121212; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; }
+#score { font-size:3em; margin-bottom:30px; }
+#clicker-button { width:150px; height:150px; cursor:pointer; image-rendering:pixelated; }
+</style>
 </head>
 <body>
-    <div id="score">0</div>
-    <img id="clicker-button" src="assets/button.gif" alt="Botão de Clique">
+<div id="score">0</div>
+<img id="clicker-button" src="assets/button.gif" alt="Botão de Clique">
 
-    <script>
-        // Seleciona elementos
-        const button = document.getElementById('clicker-button');
-        const scoreDisplay = document.getElementById('score');
+<script>
+window.onload = () => {
+    const user = localStorage.getItem("loggedUser");
+    if(!user) window.location.href = "login_register.html";
+    score = parseInt(localStorage.getItem(user+"_score")) || 0;
+    scoreDisplay.textContent = score;
+}
 
-        // Carrega score do localStorage ou inicia em 0
-        let score = parseInt(localStorage.getItem('clickerScore')) || 0;
+const button = document.getElementById('clicker-button');
+const scoreDisplay = document.getElementById('score');
+let score = 0;
+
+button.addEventListener('click', () => {
+    const user = localStorage.getItem("loggedUser");
+    score += 1;
+    scoreDisplay.textContent = score;
+    localStorage.setItem(user+"_score", score);
+});
+
+window.addEventListener('storage', (e) => {
+    const user = localStorage.getItem("loggedUser");
+    if(e.key === user+"_score"){
+        score = parseInt(e.newValue);
         scoreDisplay.textContent = score;
-
-        // Função de clique
-        button.addEventListener('click', () => {
-            score += 1; // Incrementa 1 ponto
-            scoreDisplay.textContent = score;
-            localStorage.setItem('clickerScore', score);
-        });
-
-        // Atualiza o score automaticamente caso tenha alteração em outra aba
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'clickerScore') {
-                score = parseInt(e.newValue);
-                scoreDisplay.textContent = score;
-            }
-        });
-    </script>
+    }
+});
+</script>
 </body>
 </html>
