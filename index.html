@@ -1,168 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Site com Posts</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #1f1f1f;
-            padding: 20px;
-            text-align: center;
-        }
-        main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 10px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        input, textarea, button {
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-        }
-        input, textarea {
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #resposta, #postResposta {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        h2 {
-            border-bottom: 1px solid #444;
-            padding-bottom: 5px;
-        }
-        .post-link {
-            background-color: #1f1f1f;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            display: block;
-            text-decoration: none;
-            color: #fff;
-        }
-        .post-link:hover {
-            background-color: #333;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Site com Posts</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin:0; padding:0; }
+header { background-color:#1f1f1f; padding:20px; text-align:center; }
+main { max-width:800px; margin:20px auto; padding:0 10px; }
+form { display:flex; flex-direction:column; gap:10px; margin-bottom:30px; }
+input, textarea, button { padding:10px; border-radius:5px; border:none; }
+input, textarea { width:100%; box-sizing:border-box; }
+button { background-color:#4caf50; color:#fff; cursor:pointer; }
+button:hover { background-color:#45a049; }
+#resposta, #postResposta { margin-top:10px; font-weight:bold; }
+h2 { border-bottom:1px solid #444; padding-bottom:5px; }
+.post-link { background-color:#1f1f1f; padding:10px; border-radius:5px; margin-bottom:10px; display:block; text-decoration:none; color:#fff; }
+.post-link:hover { background-color:#333; }
+</style>
 </head>
 <body>
 
-<header>
-    <h1>Meu Site com Posts</h1>
-</header>
+<header><h1>Meu Site com Posts</h1></header>
 
 <main>
-    <section>
-        <h2>Formulário de Contato</h2>
-        <form id="contatoForm">
-            <input type="text" name="nome" placeholder="Seu nome" required>
-            <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
-        <div id="resposta"></div>
-    </section>
+<section>
+<h2>Formulário de Contato</h2>
+<form id="contatoForm">
+<input type="text" name="nome" placeholder="Seu nome" required>
+<textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
+<button type="submit">Enviar</button>
+</form>
+<div id="resposta"></div>
+</section>
 
-    <section>
-        <h2>Criar Post</h2>
-        <form id="postForm">
-            <input type="text" name="titulo" placeholder="Título do post" required>
-            <textarea name="conteudo" placeholder="Conteúdo do post" required></textarea>
-            <button type="submit">Criar Post</button>
-        </form>
-        <div id="postResposta"></div>
-    </section>
+<section>
+<h2>Criar Post</h2>
+<form id="postForm">
+<input type="text" name="titulo" placeholder="Título do post" required>
+<textarea name="conteudo" placeholder="Conteúdo do post" required></textarea>
+<button type="submit">Criar Post</button>
+</form>
+<div id="postResposta"></div>
+</section>
 
-    <section>
-        <h2>Posts Recentes</h2>
-        <div id="postsContainer"></div>
-    </section>
+<section>
+<h2>Posts Recentes</h2>
+<div id="postsContainer"></div>
+</section>
 </main>
 
 <script>
 const backendContato = 'https://eupyetro022.pythonanywhere.com/contato';
 const backendPosts = 'https://eupyetro022.pythonanywhere.com/posts';
 
-// Formulário de contato
 const contatoForm = document.getElementById('contatoForm');
 const resposta = document.getElementById('resposta');
 
 contatoForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const data = {
-        nome: contatoForm.nome.value,
-        mensagem: contatoForm.mensagem.value
-    };
+    const data = { nome: contatoForm.nome.value, mensagem: contatoForm.mensagem.value };
     try {
-        await fetch(backendContato, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        });
+        await fetch(backendContato, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
         resposta.textContent = "Mensagem enviada com sucesso!";
         contatoForm.reset();
-    } catch {
-        resposta.textContent = "Erro ao enviar mensagem. Tente novamente.";
-    }
+    } catch { resposta.textContent = "Erro ao enviar mensagem. Tente novamente."; }
 });
 
-// Formulário de posts
 const postForm = document.getElementById('postForm');
 const postResposta = document.getElementById('postResposta');
+const container = document.getElementById('postsContainer');
 
 postForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const data = {
-        titulo: postForm.titulo.value,
-        conteudo: postForm.conteudo.value
-    };
+    const data = { titulo: postForm.titulo.value, conteudo: postForm.conteudo.value };
     try {
-        await fetch(backendPosts, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        });
+        const res = await fetch(backendPosts, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+        const result = await res.json();
         postResposta.textContent = "Post criado com sucesso!";
         postForm.reset();
-        carregarPosts();
-    } catch {
-        postResposta.textContent = "Erro ao criar post. Tente novamente.";
-    }
+
+        // Mostrar imediatamente no front-end
+        container.innerHTML = `<a class="post-link" href="/post/${result.json_file}" target="_blank">${data.titulo}</a>` + container.innerHTML;
+    } catch { postResposta.textContent = "Erro ao criar post. Tente novamente."; }
 });
 
-// Carregar posts
-const container = document.getElementById('postsContainer');
+// Carregar posts do backend
 async function carregarPosts() {
     try {
         const res = await fetch(backendPosts);
         const posts = await res.json();
-        container.innerHTML = posts.map(p => 
-            `<a class="post-link" href="https://eupyetro0224234.github.io/posts/${p.url}" target="_blank">${p.titulo}</a>`
+        container.innerHTML = posts.map(p =>
+            `<a class="post-link" href="/post/${p.url}" target="_blank">${p.titulo}</a>`
         ).join('');
-    } catch {
-        container.innerHTML = "<p>Erro ao carregar posts.</p>";
-    }
+    } catch { container.innerHTML = "<p>Erro ao carregar posts.</p>"; }
 }
 
 carregarPosts();
