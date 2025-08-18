@@ -1,1 +1,0 @@
-![Projeto no Itch.io](https://i.postimg.cc/hPsCTZ9m/image.png) ![Badge de versão](https://img.shields.io/badge/version-0.0.03.1-yellow) ![Licença Proprietária Customizada](https://img.shields.io/badge/license-Proprietária%20Customizada-blue)
