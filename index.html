@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clicker Game</title>
-<style>
-body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; text-align: center; padding-top:50px; }
-button { font-size: 2rem; padding: 20px 40px; margin-top:20px; cursor: pointer; border:none; border-radius:10px; background-color:#4caf50; color:#fff; }
-button:hover { background-color:#45a049; }
-#score { font-size: 3rem; margin-top:20px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #score {
+            font-size: 3em;
+            margin-bottom: 30px;
+        }
+
+        #clicker-button {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            image-rendering: pixelated; /* Para GIFs pixelados */
+        }
+    </style>
 </head>
 <body>
+    <div id="score">0</div>
+    <img id="clicker-button" src="assets/button.gif" alt="Botão de Clique">
 
-<h1>Clicker Game</h1>
-<div id="score">0</div>
-<button id="clickBtn">Clique!</button>
+    <script>
+        // Seleciona elementos
+        const button = document.getElementById('clicker-button');
+        const scoreDisplay = document.getElementById('score');
 
-<script>
-const scoreDisplay = document.getElementById("score");
-const clickBtn = document.getElementById("clickBtn");
-const backendScore = "http://127.0.0.1:5000/score"; // altere para seu backend se hospedado
+        // Carrega score do localStorage ou inicia em 0
+        let score = parseInt(localStorage.getItem('clickerScore')) || 0;
+        scoreDisplay.textContent = score;
 
-let pontos = 0;
-
-// Carregar pontos do backend
-async function loadScore() {
-    try {
-        const res = await fetch(backendScore);
-        const data = await res.json();
-        pontos = data.pontos || 0;
-        scoreDisplay.textContent = pontos;
-    } catch {
-        console.log("Erro ao carregar pontuação");
-    }
-}
-
-// Atualizar backend
-async function saveScore() {
-    try {
-        await fetch(backendScore, {
-            method:"POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify({pontos})
+        // Função de clique
+        button.addEventListener('click', () => {
+            score += 1; // Incrementa 1 ponto
+            scoreDisplay.textContent = score;
+            localStorage.setItem('clickerScore', score);
         });
-    } catch {
-        console.log("Erro ao salvar pontuação");
-    }
-}
 
-// Evento de clique
-clickBtn.addEventListener("click", () => {
-    pontos += 1;
-    scoreDisplay.textContent = pontos;
-    saveScore();
-});
-
-loadScore();
-</script>
-
+        // Atualiza o score automaticamente caso tenha alteração em outra aba
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'clickerScore') {
+                score = parseInt(e.newValue);
+                scoreDisplay.textContent = score;
+            }
+        });
+    </script>
 </body>
 </html>
