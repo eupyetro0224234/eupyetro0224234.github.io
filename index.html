@@ -3,100 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Site com Posts</title>
+<title>Clicker Game</title>
 <style>
-body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin:0; padding:0; }
-header { background-color:#1f1f1f; padding:20px; text-align:center; }
-main { max-width:800px; margin:20px auto; padding:0 10px; }
-form { display:flex; flex-direction:column; gap:10px; margin-bottom:30px; }
-input, textarea, button { padding:10px; border-radius:5px; border:none; }
-input, textarea { width:100%; box-sizing:border-box; }
-button { background-color:#4caf50; color:#fff; cursor:pointer; }
+body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; text-align: center; padding-top:50px; }
+button { font-size: 2rem; padding: 20px 40px; margin-top:20px; cursor: pointer; border:none; border-radius:10px; background-color:#4caf50; color:#fff; }
 button:hover { background-color:#45a049; }
-#resposta, #postResposta { margin-top:10px; font-weight:bold; }
-h2 { border-bottom:1px solid #444; padding-bottom:5px; }
-.post-link { background-color:#1f1f1f; padding:10px; border-radius:5px; margin-bottom:10px; display:block; text-decoration:none; color:#fff; }
-.post-link:hover { background-color:#333; }
+#score { font-size: 3rem; margin-top:20px; }
 </style>
 </head>
 <body>
 
-<header><h1>Meu Site com Posts</h1></header>
-
-<main>
-<section>
-<h2>Formulário de Contato</h2>
-<form id="contatoForm">
-<input type="text" name="nome" placeholder="Seu nome" required>
-<textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
-<button type="submit">Enviar</button>
-</form>
-<div id="resposta"></div>
-</section>
-
-<section>
-<h2>Criar Post</h2>
-<form id="postForm">
-<input type="text" name="titulo" placeholder="Título do post" required>
-<textarea name="conteudo" placeholder="Conteúdo do post" required></textarea>
-<button type="submit">Criar Post</button>
-</form>
-<div id="postResposta"></div>
-</section>
-
-<section>
-<h2>Posts Recentes</h2>
-<div id="postsContainer"></div>
-</section>
-</main>
+<h1>Clicker Game</h1>
+<div id="score">0</div>
+<button id="clickBtn">Clique!</button>
 
 <script>
-const backendContato = 'https://eupyetro022.pythonanywhere.com/contato';
-const backendPosts = 'https://eupyetro022.pythonanywhere.com/posts';
+const scoreDisplay = document.getElementById("score");
+const clickBtn = document.getElementById("clickBtn");
+const backendScore = "http://127.0.0.1:5000/score"; // altere para seu backend se hospedado
 
-const contatoForm = document.getElementById('contatoForm');
-const resposta = document.getElementById('resposta');
+let pontos = 0;
 
-contatoForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const data = { nome: contatoForm.nome.value, mensagem: contatoForm.mensagem.value };
+// Carregar pontos do backend
+async function loadScore() {
     try {
-        await fetch(backendContato, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
-        resposta.textContent = "Mensagem enviada com sucesso!";
-        contatoForm.reset();
-    } catch { resposta.textContent = "Erro ao enviar mensagem. Tente novamente."; }
-});
-
-const postForm = document.getElementById('postForm');
-const postResposta = document.getElementById('postResposta');
-const container = document.getElementById('postsContainer');
-
-postForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const data = { titulo: postForm.titulo.value, conteudo: postForm.conteudo.value };
-    try {
-        const res = await fetch(backendPosts, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
-        const result = await res.json();
-        postResposta.textContent = "Post criado com sucesso!";
-        postForm.reset();
-
-        // Mostrar imediatamente no front-end
-        container.innerHTML = `<a class="post-link" href="/post/${result.json_file}" target="_blank">${data.titulo}</a>` + container.innerHTML;
-    } catch { postResposta.textContent = "Erro ao criar post. Tente novamente."; }
-});
-
-// Carregar posts do backend
-async function carregarPosts() {
-    try {
-        const res = await fetch(backendPosts);
-        const posts = await res.json();
-        container.innerHTML = posts.map(p =>
-            `<a class="post-link" href="/post/${p.url}" target="_blank">${p.titulo}</a>`
-        ).join('');
-    } catch { container.innerHTML = "<p>Erro ao carregar posts.</p>"; }
+        const res = await fetch(backendScore);
+        const data = await res.json();
+        pontos = data.pontos || 0;
+        scoreDisplay.textContent = pontos;
+    } catch {
+        console.log("Erro ao carregar pontuação");
+    }
 }
 
-carregarPosts();
+// Atualizar backend
+async function saveScore() {
+    try {
+        await fetch(backendScore, {
+            method:"POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({pontos})
+        });
+    } catch {
+        console.log("Erro ao salvar pontuação");
+    }
+}
+
+// Evento de clique
+clickBtn.addEventListener("click", () => {
+    pontos += 1;
+    scoreDisplay.textContent = pontos;
+    saveScore();
+});
+
+loadScore();
 </script>
 
 </body>
