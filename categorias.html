@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categorias - JT Games Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { 
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    /* Variáveis CSS para temas */
+    :root {
+      --bg-primary: #f7fafc;
+      --bg-secondary: #ffffff;
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --nav-bg: linear-gradient(to right, #2563eb, #7c3aed);
+      --card-bg: #ffffff;
+      --footer-bg: #1a202c;
+      --footer-text: #cbd5e0;
+    }
+    
+    [data-theme="dark"] {
+      --bg-primary: #1a202c;
+      --bg-secondary: #2d3748;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+      --nav-bg: linear-gradient(to right, #1e40af, #6d28d9);
+      --card-bg: #2d3748;
+      --footer-bg: #0f141c;
+      --footer-text: #e2e8f0;
+    }
+    
+    .theme-transition {
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+  </style>
+</head>
+<body class="theme-transition" style="background-color: var(--bg-primary); color: var(--text-primary);">
+
+  <!-- Navbar -->
+  <nav class="text-white shadow-lg fixed w-full top-0 z-50 theme-transition" style="background-image: var(--nav-bg);">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-extrabold tracking-wide">
+        <a href="index.html">JT Games Store</a>
+      </h1>
+      <ul class="hidden md:flex space-x-6 font-medium">
+        <li><a href="index.html" class="hover:text-gray-200">Início</a></li>
+        <li><a href="populares.html" class="hover:text-gray-200">Populares</a></li>
+        <li><a href="#" class="hover:text-gray-200">Novos</a></li>
+        <li><a href="categorias.html" class="hover:text-gray-200 font-bold underline">Categorias</a></li>
+      </ul>
+      <div class="flex items-center space-x-4">
+        <input type="text" placeholder="Buscar jogos..." class="hidden md:block p-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-white theme-transition" style="background-color: var(--bg-secondary); color: var(--text-primary);" />
+        <button class="theme-transition px-4 py-2 rounded-lg font-semibold hover:opacity-90" style="background-color: var(--bg-secondary); color: var(--text-primary);">Login</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Espaço por causa da navbar fixa -->
+  <div class="pt-24"></div>
+
+  <!-- Cabeçalho da página de categorias -->
+  <div class="max-w-7xl mx-auto px-6 mb-10">
+    <h1 class="text-3xl font-bold mb-2">Categorias de Jogos</h1>
+    <p class="text-lg theme-transition" style="color: var(--text-secondary);">Explore nossa coleção organizada por categorias</p>
+  </div>
+
+  <!-- Seção de Jogos por Categoria -->
+  <main class="max-w-7xl mx-auto px-6 mb-16">
+    <!-- Categoria: Plataforma -->
+    <section class="mb-16">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-2xl font-bold">Jogos de Plataforma</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Cuphead -->
+        <div class="rounded-2xl shadow-md overflow-hidden theme-transition hover:shadow-xl transition" style="background-color: var(--card-bg);">
+          <div class="relative overflow-hidden">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYVrtJU9Sto-xkAXZNoYfbVactu-RBfOccKBfp_w6XLJ9lBKohUwZlxw&s=10" alt="Cuphead" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg">Cuphead</h3>
+            <p class="text-sm mt-1 theme-transition" style="color: var(--text-secondary);">Ação e tiroteio em estilo desenho animado dos anos 30.</p>
+            <div class="flex justify-between items-center mt-4">
+              <a href="Cuphead.html" class="text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition theme-transition" style="background-image: var(--nav-bg);">Ver Detalhes</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hollow Knight -->
+        <div class="rounded-2xl shadow-md overflow-hidden theme-transition hover:shadow-xl transition" style="background-color: var(--card-bg);">
+          <div class="overflow-hidden">
+            <img src="https://images.squarespace-cdn.com/content/v1/606d159a953867291018f801/1619987722169-VV6ZASHHZNRBJW9X0PLK/Key_Art_02_layeredjpg.jpg?format=1500w" alt="Hollow Knight" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg">Hollow Knight</h3>
+            <p class="text-sm mt-1 theme-transition" style="color: var(--text-secondary);">Aventura de ação épica em um reino de insetos arruinado.</p>
+          </div>
+        </div>
+        
+        <!-- Celeste -->
+        <div class="rounded-2xl shadow-md overflow-hidden theme-transition hover:shadow-xl transition" style="background-color: var(--card-bg);">
+          <div class="overflow-hidden">
+            <img src="https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000006442/691ba3e0801180a9864cc8a7694b6f98097f9d9799bc7e3dc6db92f086759252" alt="Celeste" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg">Celeste</h3>
+            <p class="text-sm mt-1 theme-transition" style="color: var(--text-secondary);">Jogo de plataforma desafiador sobre escalar uma montanha.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Categoria: Terror -->
+    <section class="mb-16">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-2xl font-bold">Jogos de Terror</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Five Nights at Freddy's: Into the Pit -->
+        <div class="rounded-2xl shadow-md overflow-hidden theme-transition hover:shadow-xl transition" style="background-color: var(--card-bg);">
+          <div class="overflow-hidden">
+            <img src="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2638370/header.jpg" alt="FNAF Into the Pit" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg">Five Nights: Into the Pit</h3>
+            <p class="text-sm mt-1 theme-transition" style="color: var(--text-secondary);">Terror 2D inspirado na história "Into the Pit".</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="mt-16 py-10 theme-transition" style="background-color: var(--footer-bg); color: var(--footer-text);">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <h3 class="font-bold text-lg">JT Games Store</h3>
+        <p class="text-sm mt-2">Sua loja digital de jogos favorita.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-lg">Links</h3>
+        <ul class="mt-2 space-y-1 text-sm">
+          <li><a href="index.html" class="hover:text-white">Início</a></li>
+          <li><a href="populares.html" class="hover:text-white">Populares</a></li>
+          <li><a href="categorias.html" class="hover:text-white">Categorias</a></li>
+          <li><a href="#" class="hover:text-white">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-lg">Redes Sociais</h3>
+        <div class="flex space-x-3 mt-2">
+          <a href="#" class="hover:text-white">Twitter</a>
+          <a href="#" class="hover:text-white">Facebook</a>
+          <a href="#" class="hover:text-white">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-xs mt-6 theme-transition" style="color: var(--footer-text); opacity: 0.7;">&copy; 2025 JT Games Store. Todos os direitos reservados.</div>
+  </footer>
+
+  <!-- Detecção de Tema -->
+  <script>
+    // Sistema de tema automático baseado nas preferências do sistema
+    function detectColorScheme() {
+      let theme = "light";
+      
+      // Verifica a preferência do sistema
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = "dark";
+      }
+      
+      // Aplica o tema
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+    
+    // Observa mudanças na preferência do sistema
+    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    colorSchemeQuery.addEventListener('change', (e) => {
+      if (e.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    });
+    
+    // Inicializa
+    detectColorScheme();
+  </script>
+
+</body>
+</html>
