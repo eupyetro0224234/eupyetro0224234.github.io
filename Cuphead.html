@@ -89,6 +89,18 @@
       scroll-snap-align: center;
     }
   }
+
+  /* Ícone desktop só aparece em telas médias ou maiores */
+  .app-icon-desktop {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .app-icon-desktop {
+      display: block;
+    }
+  }
+
+  /* Ícone mobile já está controlado com hidden md:hidden no HTML */
   </style>
 
 </head>
@@ -119,13 +131,25 @@
   <!-- Conteúdo Principal -->
   <main class="max-w-4xl mx-auto px-6 theme-transition" style="background-color: var(--bg-secondary); color: var(--text-primary); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem;">
     <section class="app-header flex items-start mb-8">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYVrtJU9Sto-xkAXZNoYfbVactu-RBfOccKBfp_w6XLJ9lBKohUwZlxw&s=10" alt="Ícone do app" class="app-icon w-24 h-24 rounded-2xl mr-6">
+      <!-- Ícone para DESKTOP -->
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYVrtJU9Sto-xkAXZNoYfbVactu-RBfOccKBfp_w6XLJ9lBKohUwZlxw&s=10" 
+           alt="Ícone do app" 
+           class="app-icon-desktop w-24 h-24 rounded-2xl mr-6 hidden md:block">
+
       <div class="app-info flex-1">
-        <!-- CABEÇALHO DO APLICATIVO AJUSTADO -->
-        <div class="flex items-center gap-2 mb-1">
+        <!-- Ícone para MOBILE (fica centralizado acima do título) -->
+        <div class="app-icon-mobile mb-4 md:hidden flex justify-center">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYVrtJU9Sto-xkAXZNoYfbVactu-RBfOccKBfp_w6XLJ9lBKohUwZlxw&s=10" 
+               alt="Ícone do app" 
+               class="w-24 h-24 rounded-2xl">
+        </div>
+
+        <!-- CABEÇALHO DO APLICATIVO -->
+        <div class="flex items-center gap-2 mb-1 justify-center md:justify-start">
           <h2 class="text-2xl font-bold">Cuphead by JT Games</h2>
           <span class="bg-blue-600 px-2 py-0.5 rounded text-xs text-white">A10</span>
         </div>
+
         <p class="developer theme-transition text-sm mb-2" style="color: var(--text-secondary);">JT Games</p>
         <div class="flex items-center gap-2 text-sm theme-transition mb-3" style="color: var(--text-secondary);">
           <span>0,0 ★</span>
