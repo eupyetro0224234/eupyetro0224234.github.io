@@ -55,10 +55,12 @@
   }
 
   @media (max-width: 600px) {
-    .app-header {
-      flex-direction: column;
-      text-align: center;
-      align-items: center;
+  .app-icon-mobile {
+    display: flex;
+    justify-content: center; /* Centraliza horizontal */
+    align-items: center;     /* Centraliza vertical dentro do bloco */
+    width: 100%;             /* Ocupa a largura total */
+    margin-bottom: 15px;
     }
 
     .app-icon {
@@ -93,7 +95,9 @@
     }
 
     .app-icon-mobile img {
-      margin: 0 auto;
+      display: block;
+      margin-left: auto;  /* força centralização */
+      margin-right: auto;
     }
   }
 
