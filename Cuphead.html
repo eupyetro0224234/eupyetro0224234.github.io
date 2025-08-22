@@ -12,7 +12,6 @@
     transition: background-color 0.3s, color 0.3s;
   }
 
-  /* Variáveis CSS para temas */
   :root {
     --bg-primary: #f7fafc;
     --bg-secondary: #ffffff;
@@ -39,7 +38,6 @@
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   }
 
-  /* GRID para telas grandes */
   .screenshots {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -56,7 +54,6 @@
     box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
   }
 
-  /* Estilos para dispositivos móveis */
   @media (max-width: 600px) {
     .app-header {
       flex-direction: column;
@@ -68,13 +65,11 @@
       margin: 0 0 15px 0;
     }
 
-    /* Texto "JT Games" alinhado à esquerda no mobile */
     .developer {
       text-align: left;
       width: 100%;
     }
 
-    /* Carrossel horizontal para screenshots */
     .screenshots {
       display: flex;
       overflow-x: auto;
@@ -85,12 +80,23 @@
 
     .screenshots img {
       flex: 0 0 auto;
-      width: 85%; /* ocupa 85% da largura da tela */
+      width: 85%;
       scroll-snap-align: center;
+    }
+
+    .app-icon-mobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .app-icon-mobile img {
+      margin: 0 auto;
     }
   }
 
-  /* Ícone desktop só aparece em telas médias ou maiores */
   .app-icon-desktop {
     display: none;
   }
@@ -99,14 +105,11 @@
       display: block;
     }
   }
-
-  /* Ícone mobile já está controlado com hidden md:hidden no HTML */
   </style>
 
 </head>
 <body class="theme-transition" style="background-color: var(--bg-primary); color: var(--text-primary);">
 
-  <!-- Navbar -->
   <nav class="text-white shadow-lg fixed w-full top-0 z-50 theme-transition" style="background-image: var(--nav-bg);">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-extrabold tracking-wide">
@@ -125,26 +128,21 @@
     </div>
   </nav>
 
-  <!-- Espaço por causa da navbar fixa -->
   <div class="pt-24"></div>
 
-  <!-- Conteúdo Principal -->
   <main class="max-w-4xl mx-auto px-6 theme-transition" style="background-color: var(--bg-secondary); color: var(--text-primary); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem;">
     <section class="app-header flex items-start mb-8">
-      <!-- Ícone para DESKTOP -->
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYVrtJU9Sto-xkAXZNoYfbVactu-RBfOccKBfp_w6XLJ9lBKohUwZlxw&s=10" 
            alt="Ícone do app" 
            class="app-icon-desktop w-24 h-24 rounded-2xl mr-6 hidden md:block">
 
       <div class="app-info flex-1">
-        <!-- Ícone para MOBILE (fica centralizado acima do título) -->
         <div class="app-icon-mobile mb-4 md:hidden flex justify-center">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYVrtJU9Sto-xkAXZNoYfbVactu-RBfOccKBfp_w6XLJ9lBKohUwZlxw&s=10" 
                alt="Ícone do app" 
                class="w-24 h-24 rounded-2xl">
         </div>
 
-        <!-- CABEÇALHO DO APLICATIVO -->
         <div class="flex items-center gap-2 mb-1 justify-center md:justify-start">
           <h2 class="text-2xl font-bold">Cuphead by JT Games</h2>
           <span class="bg-blue-600 px-2 py-0.5 rounded text-xs text-white">A10</span>
@@ -159,7 +157,6 @@
       </div>
     </section>
 
-    <!-- Formulário -->
     <div id="form-box" class="mt-6 p-6 rounded-lg theme-transition" style="background-color: var(--card-bg); display: none;">
       <h3 class="text-lg font-bold mb-4">Cadastre-se para ser notificado</h3>
       <form id="pre-registro-form" action="https://formsubmit.co/contatojtgames@gmail.com" method="POST">
@@ -178,14 +175,12 @@
         const formBox = document.getElementById("form-box");
         const form = document.getElementById("pre-registro-form");
 
-        // Mostrar formulário ao clicar em Pré-Registro
         preRegBtn.addEventListener("click", function (e) {
           e.preventDefault();
           formBox.style.display = "block";
           preRegBtn.style.display = "none";
         });
 
-        // Confirmar pré-registro ao enviar
         form.addEventListener("submit", function (e) {
           e.preventDefault();
           alert("✅ Pré-registro realizado com sucesso! Você será notificado em breve.");
@@ -196,7 +191,6 @@
 
     <section class="screenshots-container mt-8">
       <h3 class="text-xl font-bold mb-4">Capturas de Tela</h3>
-      <!-- NOVO LAYOUT DE SCREENSHOTS - GRID RESPONSIVO -->
       <div class="screenshots">
         <img src="https://72a6c8fc75.cbaul-cdnwnd.com/87590e3df1550039f09c67b942fdb3ff/200000010-0ffd40ffd6/450/1000215602.jpeg" alt="Screenshot 1">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXucKnWc0W5Er4CirWS-Y9EaF_1yfsmaCFr_x9kmcWpxhO7QD8RbeR-t0&s=10" alt="Screenshot 2">
@@ -241,7 +235,6 @@
     </section>
   </main>
 
-  <!-- Rodapé -->
   <footer class="py-10 theme-transition" style="background-color: var(--footer-bg); color: var(--footer-text);">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       <div>
@@ -270,22 +263,17 @@
     <div class="text-center text-xs mt-6 theme-transition" style="color: var(--footer-text); opacity: 0.7;">&copy; 2025 JT Games Store. Todos os direitos reservados.</div>
   </footer>
 
-  <!-- Script para Detecção de Tema -->
   <script>
-    // Sistema de tema automático baseado nas preferências do sistema
     function detectColorScheme() {
       let theme = "light";
       
-      // Verifica a preferência do sistema
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         theme = "dark";
       }
       
-      // Aplica o tema
       document.documentElement.setAttribute('data-theme', theme);
     }
     
-    // Observa mudanças na preferência do sistema
     const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
     colorSchemeQuery.addEventListener('change', (e) => {
       if (e.matches) {
@@ -295,7 +283,6 @@
       }
     });
     
-    // Inicializa
     detectColorScheme();
   </script>
 
