@@ -34,6 +34,40 @@
     .theme-transition {
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
+    .input-error {
+      border-color: #e53e3e;
+      box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
+    }
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.875rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .btn-loading {
+      position: relative;
+      color: transparent;
+    }
+    .btn-loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      margin: -10px 0 0 -10px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body class="theme-transition" style="background-color: var(--bg-primary); color: var(--text-primary);">
@@ -56,13 +90,35 @@
   <!-- Espaço por causa da navbar fixa -->
   <div class="pt-24"></div>
 
-  <!-- Formulário de Login -->
+  <!-- Formulário de Login / Registro -->
   <section class="flex justify-center items-center min-h-[70vh] px-4">
     <div class="w-full max-w-md p-8 rounded-2xl shadow-xl theme-transition" style="background-color: var(--card-bg);">
-      <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
-      <input type="text" id="usernameInput" placeholder="Usuário" class="w-full p-3 mb-4 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-      <input type="password" id="passwordInput" placeholder="Senha" class="w-full p-3 mb-6 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-      <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition theme-transition">Entrar</button>
+      <h2 class="text-2xl font-bold mb-6 text-center">Login / Registro</h2>
+      
+      <form id="login-form">
+        <div class="mb-4">
+          <input type="text" id="nomeInput" placeholder="Nome completo" 
+                 class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 theme-transition"/>
+          <div id="nomeError" class="error-message hidden">Por favor, informe seu nome completo</div>
+        </div>
+        
+        <div class="mb-4">
+          <input type="email" id="emailInput" placeholder="Email" 
+                 class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 theme-transition"/>
+          <div id="emailError" class="error-message hidden">Por favor, informe um email válido</div>
+        </div>
+        
+        <div class="mb-6">
+          <input type="password" id="senhaInput" placeholder="Senha" 
+                 class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 theme-transition"/>
+          <div id="senhaError" class="error-message hidden">A senha deve ter pelo menos 6 caracteres</div>
+        </div>
+        
+        <button type="submit" id="login-btn" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition theme-transition">
+          Entrar / Registrar
+        </button>
+      </form>
     </div>
   </section>
 
@@ -96,7 +152,7 @@
 
   <!-- Script de Login e Tema -->
   <script>
-    // Sistema de tema automático baseado nas preferências do sistema
+    // Tema automático
     function detectColorScheme() {
       let theme = "light";
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -110,20 +166,112 @@
     });
     detectColorScheme();
 
-    // Login simples
-    function login() {
-      const username = document.getElementById('usernameInput').value;
-      const password = document.getElementById('passwordInput').value;
+    // Elementos do DOM
+    const loginForm = document.getElementById('login-form');
+    const nomeInput = document.getElementById('nomeInput');
+    const emailInput = document.getElementById('emailInput');
+    const senhaInput = document.getElementById('senhaInput');
+    const nomeError = document.getElementById('nomeError');
+    const emailError = document.getElementById('emailError');
+    const senhaError = document.getElementById('senhaError');
+    const loginBtn = document.getElementById('login-btn');
 
-      // Usuário fixo para teste
-      if (username === 'teste' && password === '1234') {
-        localStorage.setItem('user', username);
-        alert('Login realizado com sucesso!');
-        window.location.href = "index.html"; // Redireciona para página inicial
-      } else {
-        alert('Usuário ou senha incorretos.');
+    // Validação de formulário
+    function validateForm() {
+      let isValid = true;
+      
+      // Reset errors
+      nomeError.classList.add('hidden');
+      emailError.classList.add('hidden');
+      senhaError.classList.add('hidden');
+      nomeInput.classList.remove('input-error');
+      emailInput.classList.remove('input-error');
+      senhaInput.classList.remove('input-error');
+      
+      // Validate name
+      if (!nomeInput.value.trim()) {
+        nomeError.classList.remove('hidden');
+        nomeInput.classList.add('input-error');
+        isValid = false;
+      }
+      
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailInput.value)) {
+        emailError.classList.remove('hidden');
+        emailInput.classList.add('input-error');
+        isValid = false;
+      }
+      
+      // Validate password
+      if (senhaInput.value.length < 6) {
+        senhaError.classList.remove('hidden');
+        senhaInput.classList.add('input-error');
+        isValid = false;
+      }
+      
+      return isValid;
+    }
+
+    // Login / Registro via backend
+    async function handleLogin(e) {
+      if (e) e.preventDefault();
+      
+      if (!validateForm()) return;
+      
+      const nome = nomeInput.value.trim();
+      const email = emailInput.value.trim();
+      const senha = senhaInput.value;
+
+      // Show loading state
+      loginForm.classList.add('loading');
+      loginBtn.classList.add('btn-loading');
+      
+      try {
+        const response = await fetch('https://eupyetro022.pythonanywhere.com/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, senha })
+        });
+
+        const result = await response.json();
+
+        if(result.status === 'sucesso'){
+          alert('✅ ' + result.mensagem);
+          localStorage.setItem('user', nome);
+          localStorage.setItem('userEmail', email);
+          window.location.href = 'index.html';
+        } else {
+          alert('❌ ' + result.mensagem);
+        }
+      } catch(err) {
+        console.error(err);
+        alert('❌ Não foi possível conectar ao servidor.');
+      } finally {
+        // Remove loading state
+        loginForm.classList.remove('loading');
+        loginBtn.classList.remove('btn-loading');
       }
     }
+
+    // Event listeners
+    loginForm.addEventListener('submit', handleLogin);
+    
+    // Remove error styles when user starts typing
+    nomeInput.addEventListener('input', () => {
+      nomeInput.classList.remove('input-error');
+      nomeError.classList.add('hidden');
+    });
+    
+    emailInput.addEventListener('input', () => {
+      emailInput.classList.remove('input-error');
+      emailError.classList.add('hidden');
+    });
+    
+    senhaInput.addEventListener('input', () => {
+      senhaInput.classList.remove('input-error');
+      senhaError.classList.add('hidden');
+    });
   </script>
 
 </body>
