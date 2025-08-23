@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - JT Games Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { 
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    :root {
+      --bg-primary: #f7fafc;
+      --bg-secondary: #ffffff;
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --nav-bg: linear-gradient(to right, #2563eb, #7c3aed);
+      --card-bg: #ffffff;
+      --footer-bg: #1a202c;
+      --footer-text: #cbd5e0;
+    }
+    [data-theme="dark"] {
+      --bg-primary: #1a202c;
+      --bg-secondary: #2d3748;
+      --text-primary: #e2e8f0;
+      --text-secondary: #a0aec0;
+      --nav-bg: linear-gradient(to right, #1e40af, #6d28d9);
+      --card-bg: #2d3748;
+      --footer-bg: #0f141c;
+      --footer-text: #e2e8f0;
+    }
+    .theme-transition {
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+  </style>
+</head>
+<body class="theme-transition" style="background-color: var(--bg-primary); color: var(--text-primary);">
+
+  <!-- Navbar -->
+  <nav class="text-white shadow-lg fixed w-full top-0 z-50 theme-transition" style="background-image: var(--nav-bg);">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-extrabold tracking-wide">
+        <a href="index.html">JT Games Store</a>
+      </h1>
+      <ul class="hidden md:flex space-x-6 font-medium">
+        <li><a href="index.html" class="hover:text-gray-200 font-bold underline">Início</a></li>
+        <li><a href="populares.html" class="hover:text-gray-200">Populares</a></li>
+        <li><a href="#" class="hover:text-gray-200">Novos</a></li>
+        <li><a href="categorias.html" class="hover:text-gray-200">Categorias</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Espaço por causa da navbar fixa -->
+  <div class="pt-24"></div>
+
+  <!-- Formulário de Login -->
+  <section class="flex justify-center items-center min-h-[70vh] px-4">
+    <div class="w-full max-w-md p-8 rounded-2xl shadow-xl theme-transition" style="background-color: var(--card-bg);">
+      <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+      <input type="text" id="usernameInput" placeholder="Usuário" class="w-full p-3 mb-4 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+      <input type="password" id="passwordInput" placeholder="Senha" class="w-full p-3 mb-6 rounded border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+      <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition theme-transition">Entrar</button>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="mt-16 py-10 theme-transition" style="background-color: var(--footer-bg); color: var(--footer-text);">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <h3 class="font-bold text-lg">JT Games Store</h3>
+        <p class="text-sm mt-2">Sua loja digital de jogos favorita. Essa é apenas uma reformulação visual, a loja original pertence a JT Games.</p>
+      </div>
+      <div>
+        <h3 class="font-bold text-lg">Links</h3>
+        <ul class="mt-2 space-y-1 text-sm">
+          <li><a href="index.html" class="hover:text-white">Início</a></li>
+          <li><a href="populares.html" class="hover:text-white">Populares</a></li>
+          <li><a href="categorias.html" class="hover:text-white">Categorias</a></li>
+          <li><a href="#" class="hover:text-white">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-lg">Redes Sociais</h3>
+        <div class="flex space-x-3 mt-2">
+          <a href="#" class="hover:text-white">🐦 Twitter</a>
+          <a href="#" class="hover:text-white">📘 Facebook</a>
+          <a href="#" class="hover:text-white">📷 Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-xs mt-6 theme-transition" style="color: var(--footer-text); opacity: 0.7;">&copy; 2025 JT Games Store. Todos os direitos reservados.</div>
+  </footer>
+
+  <!-- Script de Login e Tema -->
+  <script>
+    // Sistema de tema automático baseado nas preferências do sistema
+    function detectColorScheme() {
+      let theme = "light";
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = "dark";
+      }
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    colorSchemeQuery.addEventListener('change', e => {
+      document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    });
+    detectColorScheme();
+
+    // Login simples
+    function login() {
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+
+      // Usuário fixo para teste
+      if (username === 'teste' && password === '1234') {
+        localStorage.setItem('user', username);
+        alert('Login realizado com sucesso!');
+        window.location.href = "index.html"; // Redireciona para página inicial
+      } else {
+        alert('Usuário ou senha incorretos.');
+      }
+    }
+  </script>
+
+</body>
+</html>
