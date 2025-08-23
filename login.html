@@ -217,11 +217,16 @@
     async function handleLogin(e) {
       if (e) e.preventDefault();
       
-      if (!validateForm()) return;
-      
-      const nome = nomeInput.value.trim();
+      // Se o nome estiver vazio, usamos o email como nome
+      let nome = nomeInput.value.trim() || emailInput.value.trim();
       const email = emailInput.value.trim();
       const senha = senhaInput.value;
+
+      // Validação mínima de email e senha
+      if (!email || senha.length < 6) {
+        alert('❌ Preencha corretamente o email e a senha (mínimo 6 caracteres).');
+        return;
+      }
 
       // Show loading state
       loginForm.classList.add('loading');
@@ -237,10 +242,9 @@
         const result = await response.json();
 
         if(result.status === 'sucesso'){
-          alert('✅ ' + result.mensagem);
           localStorage.setItem('user', nome);
           localStorage.setItem('userEmail', email);
-          window.location.href = 'index.html';
+          window.location.href = 'area-membros.html'; // redireciona para área de membros
         } else {
           alert('❌ ' + result.mensagem);
         }
@@ -248,7 +252,6 @@
         console.error(err);
         alert('❌ Não foi possível conectar ao servidor.');
       } finally {
-        // Remove loading state
         loginForm.classList.remove('loading');
         loginBtn.classList.remove('btn-loading');
       }
