@@ -31,6 +31,7 @@
     .theme-transition { transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
     .btn { padding: 0.75rem 1.5rem; background-color:#2563eb; color:white; border-radius:0.5rem; font-weight:600; transition:0.3s; }
     .btn:hover { opacity:0.8; }
+    .nav-active { font-weight: bold; text-decoration: underline; }
   </style>
 </head>
 <body class="theme-transition" style="background-color: var(--bg-primary); color: var(--text-primary);">
@@ -47,7 +48,11 @@
         <li><a href="#" class="hover:text-gray-200">Novos</a></li>
         <li><a href="categorias.html" class="hover:text-gray-200">Categorias</a></li>
       </ul>
-      <button id="logoutBtn" class="btn hidden md:block">Logoff</button>
+      <div class="flex items-center space-x-4">
+        <input type="text" placeholder="Buscar jogos..." class="hidden md:block p-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-white theme-transition" style="background-color: var(--bg-secondary); color: var(--text-primary);" />
+        <button id="login-btn" class="theme-transition px-4 py-2 rounded-lg font-semibold hover:opacity-90" style="background-color: var(--bg-secondary); color: var(--text-primary); display:none;">Login</button>
+        <button id="logoutBtn" class="btn hidden md:block">Logoff</button>
+      </div>
     </div>
   </nav>
 
@@ -107,17 +112,21 @@
     const user = localStorage.getItem('user');
     const email = localStorage.getItem('userEmail');
 
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
     if (!email) {
       // Redireciona para login se não estiver logado
       window.location.href = 'login.html';
     } else {
       document.getElementById('welcomeMsg').textContent = `Bem-vindo, ${user}!`;
       document.getElementById('userEmail').textContent = email;
-      document.getElementById('logoutBtn').classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+      loginBtn.style.display = 'none';
     }
 
     // Logoff
-    document.getElementById('logoutBtn').addEventListener('click', () => {
+    logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('user');
       localStorage.removeItem('userEmail');
       window.location.href = 'index.html';
