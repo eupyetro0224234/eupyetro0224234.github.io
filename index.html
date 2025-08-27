@@ -15,6 +15,7 @@
       opacity: 0.4;
       pointer-events: none;
     }
+    /* Estilos para os botões de navegação perfeitamente redondos */
     #prevBtn, #nextBtn {
       width: 40px;
       height: 40px;
@@ -24,6 +25,8 @@
       border-radius: 50%;
       padding: 0;
     }
+    
+    /* Variáveis CSS para temas */
     :root {
       --bg-primary: #f7fafc;
       --bg-secondary: #ffffff;
@@ -34,6 +37,7 @@
       --footer-bg: #1a202c;
       --footer-text: #cbd5e0;
     }
+    
     [data-theme="dark"] {
       --bg-primary: #1a202c;
       --bg-secondary: #2d3748;
@@ -44,24 +48,15 @@
       --footer-bg: #0f141c;
       --footer-text: #e2e8f0;
     }
+    
     .theme-transition {
       transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    }
-    @media only screen and (max-width: 768px) {
-      .grid .rounded-2xl img {
-        height: auto !important;
-        max-height: 200px;
-        object-fit: contain;
-      }
-      .grid .rounded-2xl {
-        max-width: 90%;
-        margin: 0 auto;
-      }
     }
   </style>
 </head>
 <body class="theme-transition" style="background-color: var(--bg-primary); color: var(--text-primary);">
 
+  <!-- Navbar -->
   <nav class="text-white shadow-lg fixed w-full top-0 z-50 theme-transition" style="background-image: var(--nav-bg);">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-extrabold tracking-wide">
@@ -80,12 +75,15 @@
     </div>
   </nav>
 
+  <!-- Espaço por causa da navbar fixa -->
   <div class="pt-24"></div>
 
+  <!-- Carrossel -->
   <section class="relative w-full px-4 max-w-6xl mx-auto">
     <div class="overflow-hidden rounded-2xl shadow-xl">
       <div id="carousel" class="flex transition-transform duration-700 ease-in-out">
         
+        <!-- Slide 1 -->
         <div class="min-w-full relative">
           <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1117850/capsule_616x353.jpg" alt="Cuphead" class="w-full h-80 object-cover" />
           <div class="absolute bottom-6 left-6 text-white bg-black/60 backdrop-blur-md p-6 rounded-lg">
@@ -94,6 +92,7 @@
           </div>
         </div>
 
+        <!-- Slide 2 -->
         <div class="min-w-full relative">
           <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/367520/capsule_616x353.jpg" alt="Hollow Knight" class="w-full h-80 object-cover" />
           <div class="absolute bottom-6 left-6 text-white bg-black/60 backdrop-blur-md p-6 rounded-lg">
@@ -101,6 +100,7 @@
           </div>
         </div>
 
+        <!-- Slide 3 -->
         <div class="min-w-full relative">
           <img src="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2638370/header.jpg" alt="FNAF" class="w-full h-80 object-cover" />
           <div class="absolute bottom-6 left-6 text-white bg-black/60 backdrop-blur-md p-6 rounded-lg">
@@ -108,6 +108,7 @@
           </div>
         </div>
 
+        <!-- Slide 4 -->
         <div class="min-w-full relative">
           <img src="https://i.postimg.cc/9Fzn3476/celeste.avif" alt="Celeste" class="w-full h-80 object-cover" />
           <div class="absolute bottom-6 left-6 text-white bg-black/60 backdrop-blur-md p-6 rounded-lg">
@@ -118,6 +119,7 @@
       </div>
     </div>
 
+    <!-- Controles (bolinhas + botões) -->
     <div class="flex justify-center items-center mt-4 space-x-4">
       <button id="prevBtn" onclick="prevSlide()" class="text-white p-2 rounded-full shadow hover:opacity-90 transition theme-transition" style="background-image: var(--nav-bg);">◀</button>
 
@@ -132,10 +134,12 @@
     </div>
   </section>
 
+  <!-- Seção de Jogos -->
   <main class="max-w-7xl mx-auto px-6 mt-12">
     <h2 class="text-2xl font-bold mb-6">Nossos Jogos</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 
+      <!-- Card 1 - Cuphead -->
       <div class="rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden theme-transition" style="background-color: var(--card-bg);">
         <div class="relative">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDYVrtJU9Sto-xkAXZNoYfbVactu-RBfOccKBfp_w6XLJ9lBKohUwZlxw&s=10" alt="Cuphead" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
@@ -148,6 +152,7 @@
         </div>
       </div>
 
+      <!-- Card 2 -->
       <div class="rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden theme-transition" style="background-color: var(--card-bg);">
         <img src="https://images.squarespace-cdn.com/content/v1/606d159a953867291018f801/1619987722169-VV6ZASHHZNRBJW9X0PLK/Key_Art_02_layeredjpg.jpg?format=1500w" alt="Hollow Knight" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
         <div class="p-4">
@@ -156,6 +161,7 @@
         </div>
       </div>
 
+      <!-- Card 3 -->
       <div class="rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden theme-transition" style="background-color: var(--card-bg);">
         <img src="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2638370/header.jpg" alt="FNAF Into the Pit" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
         <div class="p-4">
@@ -164,6 +170,7 @@
         </div>
       </div>
 
+      <!-- Card 4 -->
       <div class="rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden theme-transition" style="background-color: var(--card-bg);">
         <img src="https://i.postimg.cc/9Fzn3476/celeste.avif" alt="Celeste" class="h-48 w-full object-cover transform hover:scale-105 transition duration-300" />
         <div class="p-4">
@@ -175,6 +182,7 @@
     </div>
   </main>
 
+  <!-- Rodapé -->
   <footer class="mt-16 py-10 theme-transition" style="background-color: var(--footer-bg); color: var(--footer-text);">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       <div>
@@ -203,6 +211,7 @@
     <div class="text-center text-xs mt-6 theme-transition" style="color: var(--footer-text); opacity: 0.7;">&copy; 2025 JT Games Store. Todos os direitos reservados.</div>
   </footer>
 
+  <!-- Script do Carrossel e Detecção de Tema -->
 <script>
   const carousel = document.getElementById("carousel");
   const dots = document.querySelectorAll(".dot");
@@ -223,6 +232,7 @@
       }
     });
 
+    // em vez de sumir, apenas desativa
     prevBtn.classList.toggle("disabled-btn", currentSlide === 0);
     nextBtn.classList.toggle("disabled-btn", currentSlide === totalSlides - 1);
   }
@@ -286,16 +296,20 @@
     }
   });
 
+  // Sistema de tema automático baseado nas preferências do sistema
   function detectColorScheme() {
     let theme = "light";
     
+    // Verifica a preferência do sistema
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       theme = "dark";
     }
     
+    // Aplica o tema
     document.documentElement.setAttribute('data-theme', theme);
   }
   
+  // Observa mudanças na preferência do sistema
   const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
   colorSchemeQuery.addEventListener('change', (e) => {
     if (e.matches) {
@@ -305,12 +319,13 @@
     }
   });
   
+  // Script para verificar se o usuário está logado
   function checkLogin() {
     const user = localStorage.getItem('user');
     if (user) {
       document.getElementById('login-btn').textContent = `Olá, ${user}`;
       document.getElementById('login-btn').onclick = () => {
-        window.location.href = 'area-membros.html';
+        window.location.href = 'area-membros.html'; // vai direto para a área de membros
       }
     } else {
       document.getElementById('login-btn').textContent = 'Login';
